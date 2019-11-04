@@ -23,18 +23,18 @@ namespace GeoIntegrationClient
 
 		private static Binding GetBinding()
 		{
+			var binding = new BasicHttpBinding
+			{
+				Namespace = "http://rep.geointegrasjon.no/Arkiv/Oppdatering/xml.wsdl/2012.01.31",
+			};
+
 			bool https = Configuration.ArkivInnsynUrl.StartsWith("https", StringComparison.OrdinalIgnoreCase);
 			if (https)
 			{
-				throw new NotSupportedException();
+				binding.Security.Mode = BasicHttpSecurityMode.Transport;
 			}
-			else
-			{
-				return new BasicHttpBinding
-				{
-					Namespace = "http://rep.geointegrasjon.no/Arkiv/Oppdatering/xml.wsdl/2012.01.31",
-				};
-			}
+
+			return binding;
 		}
 	}
 }
