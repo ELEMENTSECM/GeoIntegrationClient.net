@@ -1,9 +1,9 @@
-﻿using ServiceReference;
-using System;
+﻿using System;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
+using ServiceReference;
 
-namespace GeoIntegrationClient
+namespace GeoIntegrationClient.GiArkivInnsyn
 {
 	public class ArkivInnsynClientFactory
 	{
@@ -25,7 +25,7 @@ namespace GeoIntegrationClient
 		{
 			var binding = new BasicHttpBinding
 			{
-				Namespace = "http://rep.geointegrasjon.no/Arkiv/Oppdatering/xml.wsdl/2012.01.31",
+				Namespace = "http://rep.geointegrasjon.no/Arkiv/Innsyn/xml.wsdl/2012.01.31"
 			};
 
 			bool https = Configuration.ArkivInnsynUrl.StartsWith("https", StringComparison.OrdinalIgnoreCase);

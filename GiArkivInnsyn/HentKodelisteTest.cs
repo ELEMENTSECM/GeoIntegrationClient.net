@@ -5,7 +5,7 @@ using ServiceReference;
 using System.Threading.Tasks;
 
 
-namespace GeoIntegrationClient
+namespace GeoIntegrationClient.GiArkivInnsyn
 {
 	[TestClass]
 	public class HentKodelisteTest
