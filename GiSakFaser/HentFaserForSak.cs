@@ -13,7 +13,7 @@ namespace GeoIntegrationClient.GiSakFaser
 	public class HentFaserForSak
 	{
 		[TestMethod]
-		[DataRow("2019", "0")]
+		[DataRow("2022", "1")]
 		public async Task ValidCase_ShouldNotReturnNull(string saksaar, string sakssekvensnummer)
 		{
 			try
