@@ -1,9 +1,9 @@
 Note:
-You need .NET Core 3.0 SDK or later installed.
+You need .NET 6 SDK or later installed.
 
 Build instructions:
 
-- If you do not have .NET Framework sdk installed, you may have to remove net471 from TargetFrameworks in GeoIntegrationClient.csproj
+- If you do not have .NET Framework sdk installed, you may have to remove net48 from TargetFrameworks in GeoIntegrationClient.csproj
 - Edit Configuration.cs as specified in that file.
 
 
