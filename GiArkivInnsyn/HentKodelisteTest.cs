@@ -2,8 +2,12 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ServiceReference;
+using System;
 using System.Threading.Tasks;
 
+#if NET6_0_OR_GREATER
+using System.Text.Json;
+#endif
 
 namespace GeoIntegrationClient.GiArkivInnsyn
 {
@@ -41,7 +45,16 @@ namespace GeoIntegrationClient.GiArkivInnsyn
 #endif
 		public async Task HentKodeliste(string kodelistenavn)
 		{
-			Assert.IsNotNull(await HentKodelisteAsync(kodelistenavn));
+			var response = await HentKodelisteAsync(kodelistenavn);
+			Assert.IsNotNull(response, "Response should not be null");
+			Assert.IsNotNull(response.@return, "Response.return should not be null");
+
+#if NET6_0_OR_GREATER
+			foreach (var item in response.@return)
+			{
+				Console.WriteLine(JsonSerializer.Serialize(item, new JsonSerializerOptions { WriteIndented = true }));
+			}
+#endif
 		}
 
 		private async Task<HentKodelisteResponse> HentKodelisteAsync(string kodelistenavn)

@@ -11,17 +11,24 @@ using System.Text.Json;
 namespace GeoIntegrationClient.GiArkivInnsyn
 {
 	[TestClass]
-	public class FinnJournalposterTest
+	public class FinnSaksmappeTest
 	{
 		[TestMethod]
-		[DataRow("Eiendomsskatt Husebyveien")]
-		public async Task HentJournalpost(string title)
+		[DataRow("2022", "10", "")]
+		[DataRow("", "", "Eiendomsskatt Husebyveien")]
+		public async Task HentSaksmappe(string year, string sequenceNumber, string title)
 		{
 			var criterias = new List<Soekskriterie>();
-			if (!string.IsNullOrEmpty(title))
-				criterias.Add(GetAndCriteria("Journalpost.tittel", title));
+			if(!string.IsNullOrEmpty(year))
+				criterias.Add(GetAndCriteria("Saksmappe.saksnr.saksaar", year));
 
-			var response = await FinnJournalposterAsync(criterias.ToArray());
+			if (!string.IsNullOrEmpty(sequenceNumber))
+				criterias.Add(GetAndCriteria("Saksmappe.saksnr.sakssekvensnummer", sequenceNumber));
+
+			if (!string.IsNullOrEmpty(title))
+				criterias.Add(GetAndCriteria("Saksmappe.tittel", title));
+
+			var response = await FinnSaksmapperAsync(criterias.ToArray());
 			Assert.IsNotNull(response, "Response should not be null");
 			Assert.IsNotNull(response.@return, "Response.return should not be null");
 
@@ -32,7 +39,6 @@ namespace GeoIntegrationClient.GiArkivInnsyn
 			}
 #endif
 		}
-
 
 		static Soekskriterie GetAndCriteria(string field, string value)
 		{
@@ -47,12 +53,13 @@ namespace GeoIntegrationClient.GiArkivInnsyn
 			};
 		}
 
-		private async Task<FinnJournalposterResponse> FinnJournalposterAsync(Soekskriterie[] sok, bool returnerMerknad = false, bool returnerTilleggsinformasjon = false, bool returnerKorrespondansepart = false, bool returnerAvskrivning = false)
+
+		private async Task<FinnSaksmapperResponse> FinnSaksmapperAsync(Soekskriterie[] sok, bool returnerMerknad = false, bool returnerTilleggsinformasjon = false, bool returnerSakspart = false, bool returnerKlasse = false)
 		{
 			using (var client = ArkivInnsynClientFactory.CreateArkivInnsynPortClient())
 			{
 				var kontekst = new ArkivKontekst { klientnavn = Configuration.ClientName };
-				return await client.FinnJournalposterAsync(sok, returnerMerknad, returnerTilleggsinformasjon, returnerKorrespondansepart, returnerAvskrivning, kontekst);
+				return await client.FinnSaksmapperAsync(sok, returnerMerknad, returnerTilleggsinformasjon, returnerSakspart, returnerKlasse, kontekst);
 			}
 		}
 
